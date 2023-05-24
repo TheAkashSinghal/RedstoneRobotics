@@ -1,2 +1,2 @@
-# RedstoneRobotics
-The main Autonomous and TeleOp code backups for our team.
+# Autonomous Back-Up
+This folder contains the current versions of the autonomous programs.
