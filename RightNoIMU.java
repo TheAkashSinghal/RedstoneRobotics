@@ -82,8 +82,6 @@ public class RiskyRiskyRight extends LinearOpMode {
   double x = 0;
   double y = 0;
   double servoPosition = 0.0;
-  double botHeading = 0.0;
-  public IMU imu;
     /*
      * Specify the source for the Tensor Flow Model.
      * If the TensorFlowLite object model is included in the Robot Controller App as an "asset",
@@ -137,9 +135,6 @@ public class RiskyRiskyRight extends LinearOpMode {
     backrightAsDcMotor = hardwareMap.get(DcMotor.class, "backright");
     spinner = hardwareMap.get(DcMotor.class, "spinner");
     rightClaw = hardwareMap.get(Servo.class, "claw");
-    coolLights = hardwareMap.get(RevBlinkinLedDriver.class, "Lights");
-    imu = hardwareMap.get(IMU.class, "imu");
-    IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
     
     // Put initialization blocks here.
     frontleftAsDcMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
