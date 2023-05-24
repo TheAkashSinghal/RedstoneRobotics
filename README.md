@@ -1,2 +1,2 @@
 # RedstoneRobotics
-The main Autonomous and TeleOp code backups for our team.
+This project contains the current backups for our TeleOp and Autonomous programs.
