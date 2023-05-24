@@ -83,8 +83,6 @@ public class RiskyRiskyLeft extends LinearOpMode {
   double x = 0;
   double y = 0;
   double servoPosition = 0.0;
-  double botHeading = 0.0;
-  public IMU imu;
     /*
      * Specify the source for the Tensor Flow Model.
      * If the TensorFlowLite object model is included in the Robot Controller App as an "asset",
@@ -138,8 +136,7 @@ public class RiskyRiskyLeft extends LinearOpMode {
     backrightAsDcMotor = hardwareMap.get(DcMotor.class, "backright");
     spinner = hardwareMap.get(DcMotor.class, "spinner");
     rightClaw = hardwareMap.get(Servo.class, "claw");
-    imu = hardwareMap.get(IMU.class, "imu");
-    IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+   
     
     // Put initialization blocks here.
     frontleftAsDcMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -148,7 +145,6 @@ public class RiskyRiskyLeft extends LinearOpMode {
     backrightAsDcMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     spinner.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     
-    imu.initialize(parameters);
     
     frontleftAsDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     backleftAsDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -199,7 +195,6 @@ public class RiskyRiskyLeft extends LinearOpMode {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         y = getRuntime();
         spinner.setTargetPosition(200);
         spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -218,14 +213,8 @@ public class RiskyRiskyLeft extends LinearOpMode {
               if (x >= 3){
                 telemetry.addData("No Objects Detected", x);
                 telemetry.addData("Running Black", "");
-                
-                botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                telemetry.addData("IMU:", botHeading);
                 telemetry.update();
                 
-                //////////////////////
-                Check(0.0);
-                //////////////////////
                 Movement();
                 //sleep(20000);
                 
@@ -256,14 +245,8 @@ public class RiskyRiskyLeft extends LinearOpMode {
                                                     telemetry.update();
                           if (recognition.getLabel() == "Magenta"){
                             telemetry.addData("MAGENTA", "IT WORKS!!!");
-                            
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
                             
-                            //////////////////////
-                            Check(0.0);
-                            //////////////////////
                             Movement();
                             //sleep(20000);
                             
@@ -271,13 +254,7 @@ public class RiskyRiskyLeft extends LinearOpMode {
                             sleep(10000);
                           } else if (recognition.getLabel() == "Green"){
                             telemetry.addData("GREEN", "IT WORKS!!!");
-                            
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
-                            //////////////////////
-                            Check(0.0);
-                            //////////////////////
     
                             Movement();
                             //sleep(20000);
@@ -286,14 +263,7 @@ public class RiskyRiskyLeft extends LinearOpMode {
                             sleep(10000);
                           } else if (recognition.getLabel() == "Black"){
                             telemetry.addData("BLACK", "IT WORKS!!!");
-                            
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
-                            //////////////////////
-                            Check(0.0);
-                            //////////////////////
-
                             Movement();
                             //sleep(20000);
                             
@@ -367,77 +337,7 @@ public class RiskyRiskyLeft extends LinearOpMode {
     backleftAsDcMotor.setPower(speed);
     frontrightAsDcMotor.setPower(speed);
     backrightAsDcMotor.setPower(speed);
-  }
-  
-    private void posUpdate(){
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      telemetry.addData("IMU:", botHeading);
-      telemetry.update();
-    }
-    private void Check(double target){
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      if (botHeading < target - 0.5){
-        while (botHeading < target - 0.4){
-          Drive(50, 50, -50, -50, 1.0);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading > target + 0.2){
-          Drive(-20, -20, 20, 20, 1.0);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }
-    }
-      else if (botHeading > target + 0.5){
-        while (botHeading > target + 0.4){
-          Drive(-50, -50, 50, 50, 1.0);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading < target - 0.2){
-          Drive(20, 20, -20, -20, 1.0);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }
-      }
-      sleep(50);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      telemetry.addData("IMU:", botHeading);
-      telemetry.update();
-    }
-  
-  private void LeftCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    if (botHeading < 89);
-      while (botHeading < 89.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > 91);
-      while (botHeading > 90.5){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    }
-  }
-  
-  private void StraightCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    if (botHeading < -1);
-      while (botHeading < -0.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > 1);
-      while (botHeading > 0.5){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    
-  }
-
-
+   }
 
 
 
@@ -469,14 +369,9 @@ private void Movement(){
     Drive(-315, -315, -315, -315, 0.5);
     sleep(500);
     
-    posUpdate();
-    
    //Shift Right
     Drive(-575, 575, 575, -575, 0.5);
     sleep(800);
-    //////////////////////
-    Check(0.0);
-    //////////////////////
     //Forward to parralel with Cone Stack  
     Drive(2250, 2250, 2250, 2250, 0.5);
     sleep(2500);
@@ -484,9 +379,7 @@ private void Movement(){
   //Twist 90 degrees left
     Drive(960, 960, -960, -960, 0.5);
     sleep(1200);
-    //////////////////////
-    Check(90.0);
-    /////////////////////
+    
     //Elevator Down
     spinner.setTargetPosition(600);
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -498,9 +391,7 @@ private void Movement(){
   //Slow Forward to cone stack
   Drive(110, 110, 110, 110, 0.3);
   sleep(500);
-    ////////////////////
-    posUpdate();
-    ///////////////////
+    
     //Grabs cone
     rightClaw.setPosition(0);
     sleep(500);
@@ -518,7 +409,6 @@ private void Movement(){
   //90 degree left rotation
     Drive(-960, -960, 960, 960, 0.5);
     sleep(1200);
-    Check(0.0);
 
   //shift Right 
     Drive(-780, 780, 780, -780, 0.5);
@@ -543,42 +433,24 @@ private void Movement(){
 
   
 private void Magenta_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
 //shift left after high junction
     Drive(1800, -1800, -1800, 1800, 0.5);
     sleep(2200);
-    ///////////////////////////
-    Check(0.0);
-    ////////////////////////
 }
 
 
   
 private void Green_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
   //shift left after high junction
   Drive(600, -600, -600, 600, 0.5);
   sleep(1000);
-  //////////////////////////
-  Check(0.0);
-  /////////////////////////
 }
 
   
 private void Black_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
   //Shift right 
   Drive(-650, 650, 650, -650, 0.5);
   sleep(1000);
-  ////////////////////////
-  Check(0.0);
-  //////////////////////
   
   }
 }
