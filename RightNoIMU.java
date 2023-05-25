@@ -142,8 +142,7 @@ public class RiskyRiskyRight extends LinearOpMode {
     frontrightAsDcMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     backrightAsDcMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     spinner.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    
-    imu.initialize(parameters);
+  
     
     frontleftAsDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     backleftAsDcMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -169,7 +168,6 @@ public class RiskyRiskyRight extends LinearOpMode {
     frontRightPos = 0;
     backRightPos = 0;
     rightClaw.setPosition(0);
-    coolLights.setPattern(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_RED);
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -192,14 +190,10 @@ public class RiskyRiskyRight extends LinearOpMode {
         }
 
         /** Wait for the game to begin */
-        imu.resetYaw();
-        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         telemetry.addData(">", "Press Play to start op mode");
-        telemetry.addData("IMU:", botHeading);
         telemetry.update();
         
         waitForStart();
-        botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         y = getRuntime();
         spinner.setTargetPosition(200);
         spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -220,9 +214,6 @@ public class RiskyRiskyRight extends LinearOpMode {
               if (x >= 3){
                 telemetry.addData("No Objects Detected", x);
                 telemetry.addData("Running Black", "");
-                
-                botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                telemetry.addData("IMU:", botHeading);
                 telemetry.update();
                 
                 Movement();
@@ -255,9 +246,6 @@ public class RiskyRiskyRight extends LinearOpMode {
                                                     telemetry.update();
                           if (recognition.getLabel() == "Magenta"){
                             telemetry.addData("MAGENTA", "IT WORKS!!!");
-                            
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
                             
                             Movement();
@@ -267,9 +255,6 @@ public class RiskyRiskyRight extends LinearOpMode {
                             sleep(10000);
                           } else if (recognition.getLabel() == "Green"){
                             telemetry.addData("GREEN", "IT WORKS!!!");
-                            
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
                             
                             Movement();
@@ -278,10 +263,7 @@ public class RiskyRiskyRight extends LinearOpMode {
                             Green_Mission();
                             sleep(10000);
                           } else if (recognition.getLabel() == "Black"){
-
-                            botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
                             telemetry.addData("BLACK", "IT WORKS!!!");
-                            telemetry.addData("IMU:", botHeading);
                             telemetry.update();
                             
                             Movement();
@@ -358,104 +340,6 @@ public class RiskyRiskyRight extends LinearOpMode {
     backrightAsDcMotor.setPower(speed);
   }
     
-    private void Check(double target){
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      if (botHeading < target - 0.5){
-        while (botHeading < target - 0.4){
-          Drive(50, 50, -50, -50, 0.5);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading > target + 0.2){
-          Drive(-20, -20, 20, 20, 0.5);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }
-    }
-      else if (botHeading > target + 0.5){
-        while (botHeading > target + 0.4){
-          Drive(-50, -50, 50, 50, 0.5);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading < target - 0.2){
-          Drive(20, 20, -20, -20, 0.5);
-          sleep(50);
-          botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }
-      }
-      sleep(100);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      telemetry.addData("IMU:", botHeading);
-      telemetry.update();
-    }
-    
-    
-    private void RightTurn(){
-    while (botHeading > -90){
-      Drive(-150, -150, 150, 150, 1.0);
-      sleep(110);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    }
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -91){
-      while (botHeading < -90.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    }
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    }
-    
-  }
-  
-  private void RightCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -91);
-      while (botHeading < -90.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > -89){
-      while (botHeading > -89.5){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    }
-    sleep(300);
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-  }
-  
-  private void StraightCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -1);
-      while (botHeading < -0.4){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > 1){
-      while (botHeading > 0.4){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    }
-    sleep(300);
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-  }
 //EXACTLY 30 SECONDS
 private void Movement(){
 
@@ -468,9 +352,7 @@ private void Movement(){
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     spinner.setPower(1);
     sleep(1000);
-    //////////////////////
-    Check(0.0);
-    //////////////////////
+  
     //Left Shift
     Drive(575, -575, -575, 575, 0.5);
     sleep(800);
@@ -491,25 +373,18 @@ private void Movement(){
    //Shift Left
     Drive(575, -575, -575, 575, 0.5);
     sleep(800);
-    //////////////////////////////
-    Check(0.0);
-    //////////////////////////////
+   
     //Forward to parralel with Cone Stack  
     Drive(2150, 2150, 2150, 2150, 0.5);
     sleep(2500);
     Drive(-960, -960, 960, 960, 0.5);
     sleep(1200);
-    //////////////////////////
-    Check(-90.0);
-    /////////////////////////
 
     //sleep(1000);
   //Forward to cone stack
     Drive(2100, 2100, 2100, 2100, 0.5);
-    sleep(1950);
-    //////////////////////////
-    Check(-90.0);
-    /////////////////////////
+    sleep(2000);
+ 
   //Slow Forward to cone stack
   Drive(220, 220, 220, 220, 0.3);
   sleep(500);
@@ -518,31 +393,29 @@ private void Movement(){
   
     //Grabs cone
     rightClaw.setPosition(0);
-    sleep(500);
-    Drive(-100, -100, -100, -100, 0.3);
-    sleep(500);
+    sleep(300);
+    Drive(-85, -85, -85, -85, 0.3);
+    sleep(400);
     //Elevator Up
     spinner.setTargetPosition(4100);
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     spinner.setPower(1);
-    sleep(2500);
+    sleep(2000);
   //Back to open spot
-    Drive(-1000, -1000, -1000, -1000, 0.5);
+    Drive(-1015, -1015, -1015, -1015, 0.5);
     sleep(1300);
 
   //90 degree left rotation
     Drive(960, 960, -960, -960, 0.5);
     sleep(1200);
-    ////////////////////////
-    Check(0.0);
-    ///////////////////////
+    
   //shift Left 
-    Drive(700, -700, -700, 700, 0.5);
-    sleep(900);
+    Drive(750, -750, -750, 750, 0.5);
+    sleep(950);
 
   //Drive forward to high junction
-    Drive(300, 300, 300, 300, 0.5);
-    sleep(1500);
+    Drive(280, 280, 280, 280, 0.5);
+    sleep(1000);
 
   //Cone drop 
   rightClaw.setPosition(0.3);   
@@ -558,41 +431,27 @@ private void Movement(){
 
 }
 private void Magenta_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
 //shift left after high junction
     Drive(650, -650, -650, 650, 0.5);
     sleep(1000);
-    ///////////////////////////
-    Check(0.0);
-    ////////////////////////
+    
 }
 
 
   
 private void Green_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
   //shift right after high junction
   Drive(-650, 650, 650, -650, 0.5);
   sleep(1000);
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
+
   }
 
   
 private void Black_Mission(){
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
+ 
   //Shift right 
   Drive(-1900, 1900, 1900, -1900, 0.5);
   sleep(3000);
-  ///////////////////////////
-    Check(0.0);
-    ////////////////////////
+ 
   }
 }
