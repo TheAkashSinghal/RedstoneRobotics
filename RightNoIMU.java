@@ -192,8 +192,9 @@ public class RiskyRiskyRight extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
-        
+        //----------------------------------------
         waitForStart();
+        //---------------------------------------
         y = getRuntime();
         spinner.setTargetPosition(200);
         spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
