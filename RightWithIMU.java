@@ -197,13 +197,15 @@ public class RiskyRiskyRight extends LinearOpMode {
         }
 
         /** Wait for the game to begin */
+        // Set IMU
         imu.resetYaw();
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.addData("IMU:", botHeading);
         telemetry.update();
-        
+        //--------------------------------------
         waitForStart();
+        //--------------------------------------
         botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         y = getRuntime();
         spinner.setTargetPosition(200);
@@ -283,9 +285,9 @@ public class RiskyRiskyRight extends LinearOpMode {
                             Green_Mission();
                             sleep(10000);
                           } else if (recognition.getLabel() == "Black"){
+                            telemetry.addData("BLACK", "IT WORKS!!!");
 
                             botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-                            telemetry.addData("BLACK", "IT WORKS!!!");
                             telemetry.addData("IMU:", botHeading);
                             telemetry.update();
                             
@@ -363,6 +365,12 @@ public class RiskyRiskyRight extends LinearOpMode {
     backrightAsDcMotor.setPower(speed);
   }
     
+  private void posUpdate(){
+      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+      telemetry.addData("IMU:", botHeading);
+      telemetry.update();
+    }
+  
     private void Check(double target){
       botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
       if (botHeading < target - 0.5){
@@ -394,73 +402,7 @@ public class RiskyRiskyRight extends LinearOpMode {
     }
     
     
-    private void RightTurn(){
-    while (botHeading > -90){
-      Drive(-150, -150, 150, 150, 1.0);
-      sleep(110);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    }
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -91){
-      while (botHeading < -90.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    }
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    }
     
-  }
-  
-  private void RightCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -91);
-      while (botHeading < -90.5){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > -89){
-      while (botHeading > -89.5){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    }
-    sleep(300);
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-  }
-  
-  private void StraightCheck(){
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-    if (botHeading < -1);
-      while (botHeading < -0.4){
-      Drive(50, 50, -50, -50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    if (botHeading > 1){
-      while (botHeading > 0.4){
-      Drive(-50, -50, 50, 50, 1.0);
-      sleep(30);
-      botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      }
-    }
-    sleep(300);
-    botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-    telemetry.addData("IMU:", botHeading);
-    telemetry.update();
-  }
 //EXACTLY 30 SECONDS
 private void Movement(){
 
@@ -480,7 +422,7 @@ private void Movement(){
     Drive(575, -575, -575, 575, 0.5);
     sleep(800);
     //Forward a little
-    Drive(80, 80, 80, 80, 0.5);
+    Drive(100, 100, 100, 100, 0.5);
     sleep(350);
     //Drop Cone
     rightClaw.setPosition(0.3);
@@ -510,29 +452,29 @@ private void Movement(){
 
     //sleep(1000);
   //Forward to cone stack
-    Drive(2100, 2100, 2100, 2100, 0.5);
-    sleep(1950);
+    Drive(2150, 2150, 2150, 2150, 0.5);
+    sleep(2000);
     //////////////////////////
     Check(-90.0);
     /////////////////////////
   //Slow Forward to cone stack
-  Drive(220, 220, 220, 220, 0.3);
+  Drive(170, 170, 170, 170, 0.3);
   sleep(500);
 
   
   
     //Grabs cone
     rightClaw.setPosition(0);
-    sleep(500);
-    Drive(-100, -100, -100, -100, 0.3);
-    sleep(500);
+    sleep(300);
+    Drive(-85, -85, -85, -85, 0.3);
+    sleep(300);
     //Elevator Up
     spinner.setTargetPosition(4100);
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     spinner.setPower(1);
-    sleep(2500);
+    sleep(2000);
   //Back to open spot
-    Drive(-1000, -1000, -1000, -1000, 0.5);
+    Drive(-1015, -1015, -1015, -1015, 0.5);
     sleep(1300);
 
   //90 degree left rotation
@@ -542,12 +484,12 @@ private void Movement(){
     Check(0.0);
     ///////////////////////
   //shift Left 
-    Drive(700, -700, -700, 700, 0.5);
-    sleep(900);
+    Drive(725, -725, -725, 725, 0.5);
+    sleep(950);
 
   //Drive forward to high junction
-    Drive(300, 300, 300, 300, 0.5);
-    sleep(1500);
+    Drive(280, 280, 280, 280, 0.5);
+    sleep(1000);
 
   //Cone drop 
   rightClaw.setPosition(0.3);   
