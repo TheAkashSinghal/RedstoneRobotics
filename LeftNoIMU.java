@@ -368,7 +368,10 @@ private void Movement(){
     //Back away from low goal
     Drive(-315, -315, -315, -315, 0.5);
     sleep(500);
-    
+    //Elevator Down
+    spinner.setTargetPosition(600);
+    spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    spinner.setPower(1);
    //Shift Right
     Drive(-575, 575, 575, -575, 0.5);
     sleep(800);
@@ -380,11 +383,7 @@ private void Movement(){
     Drive(960, 960, -960, -960, 0.5);
     sleep(1200);
     
-    //Elevator Down
-    spinner.setTargetPosition(600);
-    spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    spinner.setPower(1);
-    //sleep(1000);
+    
   //Forward to cone stack 
     Drive(2150, 2150, 2150, 2150, 0.5);
     sleep(2000);
