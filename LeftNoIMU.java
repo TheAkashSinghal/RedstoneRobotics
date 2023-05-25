@@ -354,7 +354,7 @@ private void Movement(){
     spinner.setTargetPosition(1850);
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     spinner.setPower(1);
-    sleep(1500);
+    sleep(1000);
     //Right Shift
     Drive(-575, 575, 575, -575, 0.5);
     sleep(800);
@@ -386,22 +386,22 @@ private void Movement(){
     spinner.setPower(1);
     //sleep(1000);
   //Forward to cone stack 
-    Drive(2150, 2150, 2150, 2150, 0.7);
-    sleep(1800);
+    Drive(2150, 2150, 2150, 2150, 0.5);
+    sleep(2000);
   //Slow Forward to cone stack
   Drive(110, 110, 110, 110, 0.3);
   sleep(500);
     
     //Grabs cone
     rightClaw.setPosition(0);
-    sleep(500);
+    sleep(300);
     Drive(-85, -85, -85, -85, 0.3);
     sleep(400);
     //Elevator Up
     spinner.setTargetPosition(4100);
     spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     spinner.setPower(1);
-    sleep(2500);
+    sleep(2000);
   //Back to open spot
     Drive(-1015, -1015, -1015, -1015, 0.5);
     sleep(1300);
@@ -411,23 +411,24 @@ private void Movement(){
     sleep(1200);
 
   //shift Right 
-    Drive(-780, 780, 780, -780, 0.5);
-    sleep(1000);
+    Drive(-750, 750, 750, -750, 0.5);
+    sleep(950);
 
   //Drive forward to high junction
-    Drive(260, 260, 260, 260, 0.5);
-    sleep(1500);
+    Drive(280, 280, 280, 280, 0.5);
+    sleep(1000);
 
   //Cone drop 
   rightClaw.setPosition(0.3);   
   sleep(300);
-  // backs away from high junction
-  Drive(-230, -230, -230, -230, 0.5); 
-  sleep(500);  
   // Lowers arm
   spinner.setTargetPosition(0); 
   spinner.setMode(DcMotor.RunMode.RUN_TO_POSITION); 
-  spinner.setPower(0.5); 
+  spinner.setPower(0.5);
+  // backs away from high junction
+  Drive(-230, -230, -230, -230, 0.5); 
+  sleep(500);  
+  
 }
 
 
