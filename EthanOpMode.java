@@ -27,7 +27,7 @@ public class EthanOpMode extends LinearOpMode {
   
   public Servo claw;
   //public DcMotor wave;
-  public BNO055IMU imu;
+  //public BNO055IMU imu;
   
   
   @Override
@@ -46,8 +46,8 @@ public class EthanOpMode extends LinearOpMode {
     claw = hardwareMap.get(Servo.class, "claw");
     double clawPosition = 0.2;
     //wave = hardwareMap.get(DcMotor.class, "wave");
-    imu = hardwareMap.get(BNO055IMU.class, "imu");
-    BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    //imu = hardwareMap.get(BNO055IMU.class, "imu");
+    //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
     
     // Configure motors to go to velocity/power/position.
     frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -58,8 +58,8 @@ public class EthanOpMode extends LinearOpMode {
     spinner.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     //wave.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     
-    parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-    imu.initialize(parameters);
+    //parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+    //imu.initialize(parameters);
 
     
     // Configure motor response when power is 0.0.
@@ -84,7 +84,7 @@ public class EthanOpMode extends LinearOpMode {
     //wave.setDirection(D.Direction.FORWARD);
     
     // Inform the user that everything has been initialized.
-    telemetry.addData("Status", "Initialized: " + imu.getAngularOrientation());
+    telemetry.addData("Status", "Initialized");
     telemetry.update();
     
     // Wait for the game to start (driver presses PLAY)
@@ -103,7 +103,7 @@ public class EthanOpMode extends LinearOpMode {
       double f_frontright;
       double f_backleft;
       double f_backright;
-      //double speed = 0.4;
+      double speed = 0.5;
       
       boolean abot;
       boolean bbot;
@@ -115,7 +115,7 @@ public class EthanOpMode extends LinearOpMode {
       double rtrigger;
       double ltrigger;
       double f_wave = 0.0;
-      double botHeading = -imu.getAngularOrientation().firstAngle;
+      //double botHeading = -imu.getAngularOrientation().firstAngle;
       
       telemetry.addData("Status", "Running");
       
@@ -136,7 +136,8 @@ public class EthanOpMode extends LinearOpMode {
       
       boolean speed_bot = gamepad1.dpad_up;
       boolean slow_bot = gamepad1.dpad_down;
-      
+      boolean reg_bot = gamepad1.dpad_right;
+        
       double z = -gamepad1.left_stick_x;
       double x = gamepad1.left_stick_x;
       double y = -gamepad1.left_stick_y;
@@ -169,10 +170,21 @@ public class EthanOpMode extends LinearOpMode {
       f_backright  = y - x + rotX;
       
       
-      //f_frontleft  = f_frontleft*0.75;
-     //f_frontright = f_frontright*0.75;
-      //f_backleft   = f_backleft*0.75;
-      //f_backright  = f_backright*0.75;
+      if (slow_bot){
+        speed = 0.3
+      }
+      if (speed_bot){
+        speed = 0.7
+      }
+      if (reg_bot){
+        speed = 0.5
+      }
+      
+      f_frontleft  = f_frontleft*speed;
+      f_frontright = f_frontright*speed;
+      f_backleft   = f_backleft*speed;
+      f_backright  = f_backright*speed;
+      
       //Claw code
       if(rbump)
       {
@@ -187,10 +199,10 @@ public class EthanOpMode extends LinearOpMode {
       
       //double speed button
       
-      frontleft.setPower(f_frontleft*0.5);
-      frontright.setPower(f_frontright*0.5);
-      backleft.setPower(f_backleft*0.5);
-      backright.setPower(f_backright*0.5);
+      frontleft.setPower(f_frontleft);
+      frontright.setPower(f_frontright);
+      backleft.setPower(f_backleft);
+      backright.setPower(f_backright);
       /*if (speed_bot == true){
         speed = 0.7;
         
@@ -275,7 +287,7 @@ public class EthanOpMode extends LinearOpMode {
       telemetry.addData("f_frontright", f_frontright);
       telemetry.addData("f_backleft", f_backleft);
       telemetry.addData("f_backright", f_backright);
-      telemetry.addData("imu: ", imu.getAngularOrientation());
+      //telemetry.addData("imu: ", imu.getAngularOrientation());
       telemetry.addData("Target Position: ", spinner.getTargetPosition());
       telemetry.addData("Target Position 2: ", spinner.getCurrentPosition());
       telemetry.addData("Claw Position: ", clawPosition);
