@@ -374,23 +374,23 @@ public class RiskyRiskyLeft extends LinearOpMode {
   
     private void Check(double target){
       botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-      if (botHeading < target - 0.5){
-        while (botHeading < target - 0.4){
+      if (botHeading < target - 1.0){
+        while (botHeading < target - 0.6){
           Drive(50, 50, -50, -50, 0.5);
           sleep(50);
           botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading > target + 0.2){
+        }while (botHeading > target + 0.4){
           Drive(-20, -20, 20, 20, 0.5);
           sleep(50);
           botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
         }
     }
-      else if (botHeading > target + 0.5){
-        while (botHeading > target + 0.4){
+      else if (botHeading > target + 1.0){
+        while (botHeading > target + 0.6){
           Drive(-50, -50, 50, 50, 0.5);
           sleep(50);
           botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
-        }while (botHeading < target - 0.2){
+        }while (botHeading < target - 0.4){
           Drive(20, 20, -20, -20, 0.5);
           sleep(50);
           botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
