@@ -388,8 +388,8 @@ private void Movement(){
     Drive(2150, 2150, 2150, 2150, 0.5);
     sleep(2000);
   //Slow Forward to cone stack
-  Drive(110, 110, 110, 110, 0.3);
-  sleep(500);
+  Drive(200, 200, 200, 200, 0.2);
+  sleep(700);
     
     //Grabs cone
     rightClaw.setPosition(0);
