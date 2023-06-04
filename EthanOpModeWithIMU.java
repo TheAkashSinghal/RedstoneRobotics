@@ -46,6 +46,9 @@ public class EthanOpModeWithIMU extends LinearOpMode {
     
     claw = hardwareMap.get(Servo.class, "claw");
     double clawPosition = 0.2;
+    
+    double speed = 0.5;
+    
     //wave = hardwareMap.get(DcMotor.class, "wave");
     imu = hardwareMap.get(IMU.class, "imu");
     IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
@@ -135,8 +138,10 @@ public class EthanOpModeWithIMU extends LinearOpMode {
       if (gamepad1.options) {
                 imu.resetYaw();
             }
-      boolean speed_bot = gamepad1.dpad_up;
-      boolean slow_bot = gamepad1.dpad_down;
+      
+      boolean speed_bot = gamepad1.y;
+      boolean slow_bot = gamepad1.a;
+      boolean reg_bot = gamepad1.b;
       
       double x = gamepad1.left_stick_x * 1.1;
       double y = -gamepad1.left_stick_y;
@@ -184,10 +189,26 @@ public class EthanOpModeWithIMU extends LinearOpMode {
       
       //double speed button
       
-      frontleft.setPower(f_frontleft*0.5);
-      frontright.setPower(f_frontright*0.5);
-      backleft.setPower(f_backleft*0.5);
-      backright.setPower(f_backright*0.5);
+      if (slow_bot){
+        speed = 0.3
+      }
+      if (speed_bot){
+        speed = 0.7
+      }
+      if (reg_bot){
+        speed = 0.5
+      }
+      
+      f_frontleft  = f_frontleft*speed;
+      f_frontright = f_frontright*speed;
+      f_backleft   = f_backleft*speed;
+      f_backright  = f_backright*speed;
+      
+      
+      frontleft.setPower(f_frontleft);
+      frontright.setPower(f_frontright);
+      backleft.setPower(f_backleft);
+      backright.setPower(f_backright);
       
       // No need to cap values; DcMotor.setPower already
       // accounts for it.
