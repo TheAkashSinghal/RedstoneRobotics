@@ -63,9 +63,9 @@ import org.openftc.easyopencv.OpenCvWebcam;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "RiskyRiskyRight", group = "Auto")
+@Autonomous(name = "RightWithIMU", group = "Auto")
 
-public class RiskyRiskyRight extends LinearOpMode {
+public class RightWithIMU extends LinearOpMode {
   private DcMotor frontleftAsDcMotor;
   private DcMotor backleftAsDcMotor;  
   private DcMotor frontrightAsDcMotor;
@@ -458,8 +458,8 @@ private void Movement(){
     Check(-90.0);
     /////////////////////////
   //Slow Forward to cone stack
-  Drive(170, 170, 170, 170, 0.3);
-  sleep(500);
+  Drive(200, 200, 200, 200, 0.2);
+  sleep(700);
 
   
   
