@@ -45,6 +45,9 @@ public class EthanOpMode extends LinearOpMode {
     
     claw = hardwareMap.get(Servo.class, "claw");
     double clawPosition = 0.2;
+    
+    double speed = 0.5;
+    
     //wave = hardwareMap.get(DcMotor.class, "wave");
     //imu = hardwareMap.get(BNO055IMU.class, "imu");
     //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -103,7 +106,6 @@ public class EthanOpMode extends LinearOpMode {
       double f_frontright;
       double f_backleft;
       double f_backright;
-      double speed = 0.5;
       
       boolean abot;
       boolean bbot;
@@ -134,9 +136,9 @@ public class EthanOpMode extends LinearOpMode {
       ybot = gamepad2.y;
       xbot = gamepad2.x;
       
-      boolean speed_bot = gamepad1.dpad_up;
-      boolean slow_bot = gamepad1.dpad_down;
-      boolean reg_bot = gamepad1.dpad_right;
+      boolean speed_bot = gamepad1.y;
+      boolean slow_bot = gamepad1.a;
+      boolean reg_bot = gamepad1.b;
         
       double z = -gamepad1.left_stick_x;
       double x = gamepad1.left_stick_x;
